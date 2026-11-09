@@ -1,0 +1,20 @@
+{
+  "name": "Aio — AI Assistant",
+  "short_name": "Aio",
+  "description": "Your beautiful AI assistant — chat, search & create. Fast, gorgeous, yours.",
+  "id": "aio-assistant",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "dir": "auto",
+  "background_color": "#0b0b1a",
+  "theme_color": "#0b0b1a",
+  "categories": ["productivity", "utilities", "social"],
+  "lang": "en",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

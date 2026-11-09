@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark" data-accent="violet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>Aio</title>
+  <meta name="description" content="Aio — your brilliant AI companion. Chat, create & explore.">
+  <meta name="theme-color" content="#0a0a18">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Aio">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <!-- SVG sprite: one consistent icon set (stroke 1.8, round caps) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="sparkGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--accent)"/>
+        <stop offset="1" stop-color="var(--accent2)"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-spark" viewBox="0 0 24 24">
+      <path fill="url(#sparkGrad)" d="M12 2c.9 4.9 2.6 7.4 3.4 8.2.9.8 3.4 2 6.6 1.8-3.2-.2-5.7 1-6.6 1.8-.8.8-2.5 3.3-3.4 8.2-.9-4.9-2.6-7.4-3.4-8.2-.9-.8-3.4-2-6.6-1.8 3.2.2 5.7-1 6.6-1.8.8-.8 2.5-3.3 3.4-8.2z"/>
+    </symbol>
+    <symbol id="i-spark-w" viewBox="0 0 24 24">
+      <path fill="#fff" d="M12 2c.9 4.9 2.6 7.4 3.4 8.2.9.8 3.4 2 6.6 1.8-3.2-.2-5.7 1-6.6 1.8-.8.8-2.5 3.3-3.4 8.2-.9-4.9-2.6-7.4-3.4-8.2-.9-.8-3.4-2-6.6-1.8 3.2.2 5.7-1 6.6-1.8.8-.8 2.5-3.3 3.4-8.2z"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><path d="m21 2-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 1.7-1.3 3-3 3h-2.6a2 2 0 0 0-1.5 3.3c.3.4.5.8.5 1.2A2.4 2.4 0 0 1 12 22z"/><circle cx="7.5" cy="11.5" r=".9" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7.5" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="7.5" r=".9" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-3.9 3.1-6 7-6s7 2.1 7 6"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L8 6.5H4a2 2 0 0 0-2 2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2h-4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7c2.1 0 3.9.7 5.4 1.6M22 12s-3.5 7-10 7c-2.1 0-3.9-.7-5.4-1.6"/><path d="M3 3l18 18"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11v5"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></symbol>
+    <symbol id="i-arrow-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></symbol>
+  </svg>
+
+  <div id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside id="sidebar">
+      <div class="sb-head">
+        <div class="logo" id="logoBtn" title="Aio">
+          <span class="logo-mark"><img src="css/Aio Neon Knot App Icon (1).png" alt="Aio"></span>
+          <span class="logo-name">Aio</span>
+        </div>
+        <button class="icon-btn close-sb" id="closeSidebar" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+      </div>
+
+      <div class="sb-pad">
+        <button class="new-chat" id="newChatBtn">
+          <svg><use href="#i-plus"/></svg>
+          <span data-i18n="newChat">گفت‌وگوی جدید</span>
+        </button>
+
+        <div class="sb-search">
+          <svg class="srch-ic"><use href="#i-search"/></svg>
+          <input id="searchChats" type="text" data-i18n-ph="searchChats" placeholder="جست‌وجوی گفت‌وگوها…">
+        </div>
+      </div>
+
+      <nav id="chatList" class="chat-list" aria-label="Chats"></nav>
+
+      <div class="sb-foot">
+        <button class="install-btn" id="installBtn" hidden>
+          <svg><use href="#i-download"/></svg>
+          <span data-i18n="installApp">نصب اپلیکیشن</span>
+        </button>
+        <button class="profile-card" id="profileBtn">
+          <span class="avatar" id="sideAvatar">🙂</span>
+          <span class="pc-info">
+            <span class="pc-name" id="sideName">Aio User</span>
+            <span class="pc-sub" data-i18n="settings">تنظیمات</span>
+          </span>
+          <svg class="pc-gear"><use href="#i-gear"/></svg>
+        </button>
+      </div>
+    </aside>
+    <div id="sidebarBackdrop"></div>
+
+    <!-- ============ MAIN ============ -->
+    <main id="main">
+      <header id="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+        <div class="tb-title">
+          <span id="chatTitle">Aio</span>
+          <span class="tb-badge" id="modeBadge">DEMO</span>
+        </div>
+        <div class="tb-actions">
+          <button class="icon-btn" id="browserBtn" title="Browser" aria-label="Browser"><svg><use href="#i-globe"/></svg></button>
+          <button id="audioToggle" title="TTS" aria-label="Read aloud"></button>
+          <button class="icon-btn" id="themeToggle" title="Theme" aria-label="Toggle theme"><svg class="ic-moon"><use href="#i-moon"/></svg><svg class="ic-sun"><use href="#i-sun"/></svg></button>
+          <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings"><svg><use href="#i-gear"/></svg></button>
+        </div>
+      </header>
+
+      <div id="messages">
+        <div id="welcome" class="welcome">
+          <div class="w-logo big"><img style="    width: 105px;
+    margin: auto;
+    margin-right: -7px;
+    margin-top: -3px;" src="css/Aio Neon Knot App Icon (1).png" alt="Aio"></div>
+          <h1 class="w-brand">Aio</h1>
+          <form class="home-search" id="homeSearch" autocomplete="off">
+            <svg class="hs-ic"><use href="#i-search"/></svg>
+            <input id="homeInput" type="text" data-i18n-ph="homePlaceholder" placeholder="جست‌وجو در وب یا پرسیدن از هوش…">
+            <button type="submit" class="hs-go" aria-label="Search"><svg><use href="#i-send"/></svg></button>
+          </form>
+          <div class="home-tags">
+            <button class="h-tag" data-q="اخبار امروز ایران">📰 اخبار امروز</button>
+            <button class="h-tag" data-q="قیمت دلار و طلا امروز">💰 قیمت دلار و طلا</button>
+            <button class="h-tag" data-q="آب و هوای تهران امروز">🌤 آب‌وهوا</button>
+            <button class="h-tag" data-q="هوش مصنوعی چیست و چطور کار می‌کند">🤖 هوش مصنوعی چیست؟</button>
+          </div>
+          <p class="w-note">هر چیزی بنویسی، Aio وب را می‌گردد و بهترین جواب را با منابع می‌آورد ⚡</p>
+        </div>
+      </div>
+
+      <footer id="composer">
+        <!-- Voice input overlay -->
+        <div id="voiceBar" hidden>
+          <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="v-main">
+            <span class="v-hint" id="voiceHint" data-i18n="voiceHint">حالا صحبت کن…</span>
+            <span class="v-text" id="voiceText"></span>
+          </div>
+          <span class="v-timer" id="voiceTimer">0:00</span>
+          <button class="icon-btn v-cancel" id="voiceCancel" aria-label="Cancel"><svg><use href="#i-x"/></svg></button>
+          <button class="btn-ic v-done" id="voiceDone" aria-label="Done"><svg><use href="#i-check"/></svg></button>
+        </div>
+
+        <div class="input-wrap">
+          <textarea id="input" rows="1" data-i18n-ph="inputPlaceholder" placeholder="پیامت رو بنویس…"></textarea>
+          <div class="composer-btns">
+            <button class="icon-btn search-tgl" id="searchToggle" title="Web search" aria-label="Web search"><svg><use href="#i-globe"/></svg></button>
+            <button class="icon-btn mic" id="micBtn" title="Mic" aria-label="Voice input"><svg><use href="#i-mic"/></svg></button>
+            <button class="send-btn" id="sendBtn" aria-label="Send">
+              <svg class="ic-send"><use href="#i-send"/></svg>
+              <svg class="ic-stop"><use href="#i-stop"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="disclaimer" data-i18n="disclaimer">Aio می‌تونه اشتباه کنه. اطلاعات مهم رو چک کن.</p>
+      </footer>
+
+      <!-- ============ BROWSER VIEW ============ -->
+      <section id="browserView" hidden>
+        <div class="bv-chrome">
+          <button class="icon-btn" id="bvBack" title="Back to chat" aria-label="Back"><svg><use href="#i-arrow-back"/></svg></button>
+          <form id="bvForm" class="bv-urlwrap" autocomplete="off">
+            <svg class="bv-lock"><use href="#i-globe"/></svg>
+            <input id="bvUrl" dir="ltr" spellcheck="false" placeholder="Search or type a URL">
+            <button type="button" class="icon-btn bv-ext" id="bvExternal" title="Open in system browser" aria-label="Open externally"><svg><use href="#i-external"/></svg></button>
+          </form>
+        </div>
+        <div class="bv-scroll">
+          <div id="bvStatus" class="bv-status" hidden><span class="thinking"><i></i><i></i><i></i></span></div>
+          <div id="bvPage" class="bv-page"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ SETTINGS ============ -->
+  <div class="modal-backdrop" id="settingsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="m-head">
+        <h2 data-i18n="settings">تنظیمات</h2>
+        <button class="icon-btn" id="closeSettings" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+      </div>
+      <div class="m-tabs">
+        <button class="m-tab active" data-tab="profile"><svg><use href="#i-user"/></svg><span data-i18n="profile">پروفایل</span></button>
+        <button class="m-tab" data-tab="appearance"><svg><use href="#i-palette"/></svg><span data-i18n="appearance">ظاهر</span></button>
+        <button class="m-tab" data-tab="about"><svg><use href="#i-info"/></svg><span data-i18n="about">درباره</span></button>
+      </div>
+      <div class="m-body">
+
+        <section class="m-panel active" data-panel="profile">
+          <div class="photo-row">
+            <div class="photo-wrap" id="photoWrap">
+              <img id="userPhotoImg" alt="" hidden>
+              <span class="photo-emoji" id="userPhotoEmoji">🙂</span>
+              <button class="photo-badge" id="changePhotoBtn" aria-label="Change photo"><svg width="15" height="15"><use href="#i-camera"/></svg></button>
+              <input type="file" id="photoInput" accept="image/*" hidden>
+            </div>
+            <div class="photo-info">
+              <b id="photoName">Aio User</b>
+              <button class="linklike danger" id="removePhotoBtn" data-i18n="removePhoto">حذف عکس</button>
+            </div>
+          </div>
+          <label class="field">
+            <span data-i18n="name">نام</span>
+            <input type="text" id="userNameInput" data-i18n-ph="namePlaceholder" placeholder="اسمت رو وارد کن…">
+          </label>
+          <label class="field">
+            <span data-i18n="language">زبان</span>
+            <div class="select-wrap">
+              <svg class="sel-ic"><use href="#i-globe"/></svg>
+              <select id="langSelect"></select>
+            </div>
+          </label>
+          <label class="field">
+            <span data-i18n="voiceLang">زبان صوت به متن</span>
+            <div class="select-wrap">
+              <svg class="sel-ic"><use href="#i-mic"/></svg>
+              <select id="voiceLangSelect"></select>
+            </div>
+          </label>
+        </section>
+
+        <section class="m-panel" data-panel="appearance">
+          <div class="field">
+            <span data-i18n="theme">تم</span>
+            <div class="seg" id="themeSeg">
+              <button class="seg-btn" data-val="dark"><svg><use href="#i-moon"/></svg><span data-i18n="dark">تیره</span></button>
+              <button class="seg-btn" data-val="light"><svg><use href="#i-sun"/></svg><span data-i18n="light">روشن</span></button>
+            </div>
+          </div>
+          <div class="field">
+            <span data-i18n="accentColor">رنگ اصلی</span>
+            <div class="accents" id="accentRow">
+              <button class="acc" data-acc="violet"  style="--a:#8b5cf6" aria-label="Violet"></button>
+              <button class="acc" data-acc="cyan"    style="--a:#06b6d4" aria-label="Cyan"></button>
+              <button class="acc" data-acc="emerald" style="--a:#10b981" aria-label="Emerald"></button>
+              <button class="acc" data-acc="rose"    style="--a:#f43f5e" aria-label="Rose"></button>
+              <button class="acc" data-acc="amber"   style="--a:#f59e0b" aria-label="Amber"></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="m-panel" data-panel="ai">
+          <div class="ai-status" id="aiStatus">
+            <span class="dot"></span>
+            <span id="aiStatusText">Demo mode</span>
+            <button class="linklike" id="dsTest" style="margin-inline-start:auto">تست اتصال دیپ‌سیک</button>
+          </div>
+          <label class="field">
+            <span data-i18n="provider">سرویس‌دهنده</span>
+            <div class="select-wrap">
+              <svg class="sel-ic"><use href="#i-zap"/></svg>
+              <select id="providerSelect">
+                <option value="aio-free" data-i18n="providerFree">Aio Smart (رایگان — بدون کلید)</option>
+                <option value="demo" data-i18n="providerDemo">حالت دمو (آفلاین)</option>
+                <option value="gemini">Google Gemini</option>
+                <option value="openai">OpenAI</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="deepseek">DeepSeek</option>
+                <option value="groq">Groq</option>
+                <option value="custom" data-i18n="providerCustom">سفارشی</option>
+              </select>
+            </div>
+          </label>
+          <div id="apiFields" hidden>
+            <label class="field">
+              <span data-i18n="apiKey">کلید API</span>
+              <div class="key-wrap">
+                <input type="password" id="apiKeyInput" placeholder="sk-…" autocomplete="off">
+                <button type="button" class="icon-btn eye" id="eyeBtn" aria-label="Show key"><svg class="ic-eye"><use href="#i-eye"/></svg><svg class="ic-eye-off"><use href="#i-eye-off"/></svg></button>
+              </div>
+            </label>
+            <label class="field">
+              <span data-i18n="model">مدل</span>
+              <input type="text" id="modelInput" placeholder="gpt-4o-mini">
+            </label>
+            <label class="field" id="baseUrlField" hidden>
+              <span data-i18n="baseUrl">آدرس Base</span>
+              <input type="text" id="baseUrlInput" placeholder="https://api.example.com/v1">
+            </label>
+            <p class="hint" data-i18n="apiKeyHint">کلید فقط روی همین دستگاه ذخیره می‌شه.</p>
+          </div>
+          <div class="danger-zone">
+            <button class="linklike danger" id="clearDataBtn" data-i18n="clearData">پاک کردن همه گفت‌وگوها</button>
+          </div>
+        </section>
+
+        <section class="m-panel" data-panel="about">
+          <div class="about-hero">
+            <div class="about-logo"><svg width="30" height="30"><use href="#i-spark-w"/></svg></div>
+            <p class="about-name">Aio <small>· v1.1</small></p>
+            <p class="about-tag">Your brilliant AI companion</p>
+          </div>
+          <div class="install-guide">
+            <h3 data-i18n="installGuideTitle">نصب Aio روی دستگاهت</h3>
+            <p><b>Android:</b> <span data-i18n="installAndroid">منوی ⋮ → Install app</span></p>
+            <p><b>iPhone/iPad:</b> <span data-i18n="installIos">دکمه Share ↓ → Add to Home Screen</span></p>
+            <p><b>Desktop:</b> <span data-i18n="installDesktop">آیکون نصب در نوار آدرس مرورگر</span></p>
+          </div>
+        </section>
+
+      </div>
+      <div class="m-foot">
+        <button class="btn ghost" id="cancelSettings" data-i18n="cancel">انصراف</button>
+        <button class="btn primary" id="saveSettings" data-i18n="save">ذخیره</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="confirmModal" hidden>
+    <div class="modal modal-sm">
+      <p id="confirmText">؟</p>
+      <div class="m-foot">
+        <button class="btn ghost" id="confirmNo" data-i18n="cancel">انصراف</button>
+        <button class="btn danger-btn" id="confirmYes" data-i18n="delete">حذف</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/markdown.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/i18n-data-1.js"></script>
+  <script src="js/i18n-data-2.js"></script>
+  <script src="js/i18n-data-3.js"></script>
+  <script src="js/i18n-data-4.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>
